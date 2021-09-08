@@ -1,0 +1,30 @@
+{
+  "name": "guitarprogressionapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@moonwave99/fretboard.js": "^0.2.7",
+    "bcryptjs": "^2.4.3",
+    "chordictionary": "0.1.0-beta.4",
+    "express": "^4.17.1",
+    "fretboard-diagram": "^1.0.0",
+    "fretboards": "^0.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.7",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^9.0.1",
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.12",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.0.0"
+  }
+}
