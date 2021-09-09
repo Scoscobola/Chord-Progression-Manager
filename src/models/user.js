@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Progression = require('./progression');
 
+// Defining user schema/model.
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -50,12 +51,14 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+// Establishing key relationship with virtual attribute.
 userSchema.virtual('progressions', {
     ref: 'Progression',
     localField: "_id",
     foreignField: 'owner'
 });
 
+// Called when a user signs up or logs in.
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
     const token = jwt.sign({ _id: user.id.toString() }, process.env.JWT_SECRET);
@@ -66,6 +69,7 @@ userSchema.methods.generateAuthToken = async function() {
     return token;
 }
 
+// Omitting the password and tokens attributes.
 userSchema.methods.toJSON = function() {
     const user = this;
     const userObject = user.toObject();
@@ -76,6 +80,7 @@ userSchema.methods.toJSON = function() {
     return userObject;
 }
 
+// Ablility to search for a user by email and password for login purposes.
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({email});
 
@@ -92,6 +97,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user;
 }
 
+// In the case the user has just been created or is updated, hash their password.
 userSchema.pre('save', async function(next){
     const user = this;
 
@@ -102,6 +108,7 @@ userSchema.pre('save', async function(next){
     next();
 })
 
+// In the case the user deletes their profile, delete their progressions.
 userSchema.pre('remove', async function(next){
     const user = this;
 

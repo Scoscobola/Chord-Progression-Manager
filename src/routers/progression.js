@@ -3,6 +3,7 @@ const router = new express.Router();
 const Progression = require('../models/progression');
 const auth = require('../middleware/auth');
 
+// Create a new progression.
 router.post('/progressions', auth, async(req, res) => {
     const progression = new Progression({
         ...req.body,
@@ -18,6 +19,7 @@ router.post('/progressions', auth, async(req, res) => {
     }
 });
 
+// GET a user's progressions.
 router.get('/progressions', auth, async(req, res) => {
     try{
         await req.user.populate('progressions').execPopulate()
@@ -28,6 +30,7 @@ router.get('/progressions', auth, async(req, res) => {
     }
 });
 
+// GET a user's progression by id
 router.get('/progressions/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
@@ -44,6 +47,7 @@ router.get('/progressions/:id', auth, async (req, res) => {
     }
 })
 
+// Update a progression.
 router.patch('/progressions/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['name', 'key'];
@@ -72,6 +76,7 @@ router.patch('/progressions/:id', auth, async (req, res) => {
     }
 });
 
+// Delete a progression.
 router.delete('/progressions/:id', auth, async (req, res) => {
     try{
         const progression = await Progression.findOneAndDelete({_id: req.params.id, owner: req.user._id});
@@ -87,6 +92,7 @@ router.delete('/progressions/:id', auth, async (req, res) => {
     }
 });
 
+// Add a chord to a progression.
 router.post('/progressions/:id/chords', auth, async (req, res) => {
     const chord = req.body;
     
@@ -105,6 +111,7 @@ router.post('/progressions/:id/chords', auth, async (req, res) => {
     }
 });
 
+// Delete a chord from a progression.
 router.delete('/progressions/:id/chords/:cid', auth, async (req, res) => {
     try{
         const progression = await Progression.findOne({_id: req.params.id, owner: req.user._id});
